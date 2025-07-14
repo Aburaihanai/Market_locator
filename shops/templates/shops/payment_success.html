@@ -1,0 +1,10 @@
+{% extends 'shops/base.html' %}
+{% block title %}Payment Success{% endblock %}
+{% block content %}
+<div style="background: #e7ffe7; padding: 20px; border-radius: 8px;">
+    <h2>✅ Payment Successful</h2>
+    <p><strong>{{ shop.shop_name }}</strong> has now been approved as an advertiser.</p>
+    <p>Your ad will appear until: <strong>{{ shop.paid_till }}</strong></p>
+    <a href="{% url 'home' %}">Return to homepage</a>
+</div>
+{% endblock %}

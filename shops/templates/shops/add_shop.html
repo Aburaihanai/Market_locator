@@ -1,0 +1,38 @@
+{% extends 'shops/base.html' %}
+{% block title %}Add Shop - MarketLocator{% endblock %}
+{% block content %}
+<!-- keep existing form code here -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Add New Shop</title>
+    <style>
+        body { font-family: Arial; background: #eef2f7; padding: 20px; }
+        .container { max-width: 800px; margin: auto; background: white; padding: 20px; border-radius: 6px; }
+        form input, form textarea, form select {
+            width: 100%; padding: 10px; margin-bottom: 15px; border-radius: 4px; border: 1px solid #ccc;
+        }
+        button { padding: 10px 20px; background: #007bff; color: white; border: none; border-radius: 4px; }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h2>📌 Add a New Shop</h2>
+
+    {% if messages %}
+        {% for message in messages %}
+            <p style="color: green;">{{ message }}</p>
+        {% endfor %}
+    {% endif %}
+
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Add Shop</button>
+    </form>
+
+    <p><a href="{% url 'home' %}">← Back to Home</a></p>
+</div>
+</body>
+</html>
+{% endblock %}

@@ -1,0 +1,31 @@
+{% extends 'shops/base.html' %}
+{% block title %}Add Shop - MarketLocator{% endblock %}
+{% block content %}
+<!-- keep existing form code here -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Search Results</title>
+    <style>
+        body { font-family: Arial; padding: 20px; background: #f2f2f2; }
+        .container { max-width: 900px; margin: auto; }
+        .shop-card { background: white; margin-bottom: 10px; padding: 15px; border-radius: 5px; }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h2>Search results for "{{ query }}"</h2>
+
+    {% for shop in shops %}
+        <div class="shop-card">
+            <h3><a href="{% url 'shop_detail' shop.id %}">{{ shop.shop_name }}</a></h3>
+            <p><strong>Shop No:</strong> {{ shop.shop_number }} | {{ shop.get_category_display }}</p>
+            <p>{{ shop.products|truncatechars:100 }}</p>
+        </div>
+    {% empty %}
+        <p>No results found for "{{ query }}".</p>
+    {% endfor %}
+</div>
+</body>
+</html>
+{% endblock %}

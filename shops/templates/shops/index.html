@@ -1,0 +1,87 @@
+{% extends 'shops/base.html' %}
+{% block title %}All Shops - MarketLocator{% endblock %}
+{% block content %}
+
+<!-- ✅ Show Ads First -->
+{% if featured_ads %}
+    <div style="background: #fffbe6; padding: 10px; border: 2px dashed #ffa500; margin-bottom: 20px;">
+        <h3>🔥 Sponsored Ads</h3>
+        <div style="display: flex; gap: 15px; overflow-x: auto;">
+            {% for ad in featured_ads %}
+                <div style="flex: 0 0 auto; width: 200px;">
+                    {% if ad.ad_banner %}
+                        <a href="{% url 'shop_detail' ad.id %}">
+                            <img src="{{ ad.ad_banner.url }}" alt="Ad for {{ ad.shop_name }}" style="width: 100%; border-radius: 6px;">
+                        </a>
+                    {% else %}
+                        <p>{{ ad.shop_name }}</p>
+                    {% endif %}
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endif %}
+
+<h2>🛒 Sabon Gari Market Shops</h2>
+
+<form method="get" action="{% url 'search_shops' %}">
+    <input type="text" name="q" placeholder="Search by name, number, or product..." style="padding: 8px; width: 70%;">
+    <button type="submit" style="padding: 8px;">Search</button>
+</form>
+
+<br>
+
+{% for shop in shops %}
+    <div style="border: 1px solid #ddd; padding: 15px; margin-bottom: 10px;">
+        <h3><a href="{% url 'shop_detail' shop.id %}">{{ shop.shop_name }}</a></h3>
+        <p><strong>Shop No:</strong> {{ shop.shop_number }} | <strong>Category:</strong> {{ shop.get_category_display }}</p>
+        {% if shop.image %}
+            <img src="{{ shop.image.url }}" width="150">
+        {% else %}
+            <img src="/static/no-image.jpg" width="150">
+        {% endif %}
+        <p>{{ shop.products|truncatechars:80 }}</p>
+    </div>
+{% empty %}
+    <p>No shops available.</p>
+{% endfor %}
+{% endblock %}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>MarketLocator - Shops</title>
+    <p><a href="{% url 'add_shop' %}" style="color: #007bff;">➕ Add New Shop</a></p>
+    <style>
+        body { font-family: Arial; background: #f7f7f7; padding: 20px; }
+        .container { max-width: 900px; margin: auto; }
+        .shop-card { background: white; margin-bottom: 10px; padding: 15px; border-radius: 5px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        .shop-card a { text-decoration: none; color: #2b2b2b; }
+        .shop-card:hover { background: #f0f8ff; }
+        .search-bar { margin-bottom: 20px; }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>📍 Sabon Gari Market – Shop Directory</h1>
+
+    <form method="get" action="{% url 'search_shops' %}" class="search-bar">
+        <input type="text" name="q" placeholder="Search by name, number, or product..." style="padding:8px; width:70%;">
+        <button type="submit" style="padding:8px;">Search</button>
+    </form>
+
+    {% for shop in shops %}
+        <div class="shop-card">
+            <h2><a href="{% url 'shop_detail' shop.id %}">{{ shop.shop_name }}</a></h2>
+            <p><strong>Shop No:</strong> {{ shop.shop_number }} | <strong>Category:</strong> {{ shop.get_category_display }}</p>
+            <p>{{ shop.products|truncatechars:80 }}</p>
+        </div>
+    {% empty %}
+        <p>No shops available.</p>
+    {% endfor %}
+</div>
+</body>
+</html>
+
+
+
