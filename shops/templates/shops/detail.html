@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{{ shop.shop_name }} - Details</title>
+    <style>
+        body { font-family: sans-serif; background: #f9f9f9; padding: 20px; }
+        .container { max-width: 800px; margin: auto; background: white; padding: 20px; border-radius: 6px; }
+        img { max-width: 100%; margin-bottom: 15px; }
+        a { color: #007bff; text-decoration: none; }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>{{ shop.shop_name }}</h1>
+    <p><strong>Shop Number:</strong> {{ shop.shop_number }}</p>
+    <p><strong>Owner:</strong> {{ shop.owner_name }}</p>
+    <p><strong>Section:</strong> {{ shop.section }}</p>
+    <p><strong>Category:</strong> {{ shop.get_category_display }}</p>
+    <p><strong>Phone:</strong> {{ shop.phone_number }}</p>
+    <p><strong>Products:</strong> {{ shop.products }}</p>
+
+    {% if shop.image %}
+        <img src="{{ shop.image.url }}" alt="Shop Image">
+    {% endif %}
+
+    <p><a href="{% url 'home' %}">← Back to List</a></p>
+</div>
+</body>
+</html>
+
+{% extends 'shops/base.html' %}
+{% block title %}{{ shop.shop_name }} - MarketLocator{% endblock %}
+{% block content %}
+<h2>{{ shop.shop_name }}</h2>
+<p><strong>Shop Number:</strong> {{ shop.shop_number }}</p>
+<p><strong>Owner:</strong> {{ shop.owner_name }}</p>
+<p><strong>Section:</strong> {{ shop.section }}</p>
+<p><strong>Category:</strong> {{ shop.get_category_display }}</p>
+<p><strong>Phone:</strong> {{ shop.phone_number }}</p>
+<p><strong>Products:</strong> {{ shop.products }}</p>
+
+{% if shop.image %}
+    <img src="{{ shop.image.url }}" width="300">
+{% endif %}
+
+<p><a href="{% url 'home' %}">← Back</a></p>
+{% endblock %}
+
+{% if not shop.payment_verified %}
+    <a href="{% url 'make_payment' shop.id %}" style="background: orange; color: white; padding: 10px 20px; border-radius: 5px; text-decoration: none;">
+        💳 Pay to Activate Ad
+    </a>
+{% endif %}
